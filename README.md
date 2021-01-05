@@ -2,6 +2,8 @@
 
 This tool generates the list of dependencies of your project. 
 
+![CI](https://github.com/vladonemo/dependency-list/workflows/CI/badge.svg)
+
 # Technologies
 
 The following technologies have been used to write the tool
