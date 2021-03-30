@@ -118,4 +118,4 @@ Example:
 ## Run the tool
 
 E.g. using gradle:
-`gradlew bootRun --args="input.json"`
+`gradlew bootRun --args="./input.json"`
