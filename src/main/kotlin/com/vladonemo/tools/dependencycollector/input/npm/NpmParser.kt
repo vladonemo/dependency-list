@@ -11,8 +11,8 @@ class NpmParser : Parser {
                 ?.map {
                     Dependency().apply {
                         name = it.key
-                        version = it.value.version
-                        link = it.value.resolved
+                        version = it.value.required?.version ?: it.value.version
+                        link = it.value.required?._resolved ?: it.value.resolved
                     }
                 }
     }
