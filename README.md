@@ -47,6 +47,9 @@ Generate the DOT file of your project:
   - to get production dependencies: `npm ls --json --parseable --depth=0 --prod=true > npm.json`
   - to get development dependencies: `npm ls --json --parseable --depth=0 --dev=true > npm-dev.json`
 
+In case you want to include nested dependencies in the list,
+omit `--depth=0` argument from `npm ls` command
+
 
 ## Define json configuration
 
