@@ -4,5 +4,6 @@ data class NpmDependency(val version: String = "",
                          val required: NpmRequiredDependency? = null,
                          val from: String = "",
                          var resolved: String = "",
-                         var peerMissing: Boolean = false
+                         var peerMissing: Boolean = false,
+                         var dependencies: Map<String, NpmDependency>? = null
 )
