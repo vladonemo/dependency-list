@@ -2,6 +2,7 @@ package com.vladonemo.tools.dependencycollector
 
 import com.vladonemo.tools.dependencycollector.input.Dependency
 import com.vladonemo.tools.dependencycollector.input.Parser
+import com.vladonemo.tools.dependencycollector.input.cycloneDx.CycloneDxParser
 import com.vladonemo.tools.dependencycollector.input.config.FileConfig
 import com.vladonemo.tools.dependencycollector.input.config.FilterConfig
 import com.vladonemo.tools.dependencycollector.input.config.InputConfigParser
@@ -21,6 +22,7 @@ class DependencyCollectorApplication : CommandLineRunner {
     private fun getParser(file: FileConfig): Parser {
         return when (file.type) {
             "npm" -> NpmParser()
+            "cycloneDx" -> CycloneDxParser()
             "maven" -> MavenParser(file.settings)
             else -> throw Throwable("File type unknown. Supported are only 'npm' and 'maven'")
         }
@@ -28,20 +30,20 @@ class DependencyCollectorApplication : CommandLineRunner {
 
     override fun run(vararg args: String?) {
         val input = args[0]?.let { InputConfigParser().parse(it) }
-                ?: throw Throwable("Input config file not specified")
+            ?: throw Throwable("Input config file not specified")
         val parent = File(args[0]!!).parent
         input.toProcess
-                .map { toProcess ->
-                    Group(toProcess.group,
-                            toProcess.files
-                                    .map { getParser(it).parse(File(parent, it.path)) }
-                                    .flatMap { it.orEmpty() }
-                                    .distinct()
-                                    .filter { apply(toProcess.filter, it) }
-                                    .toSortedSet(compareBy(Dependency::name, Dependency::version))
-                    )
-                }
-                .let { getOutputWriter(input.output, parent).write(it) }
+            .map { toProcess ->
+                Group(toProcess.group,
+                    toProcess.files
+                        .map { getParser(it).parse(File(parent, it.path)) }
+                        .flatMap { it.orEmpty() }
+                        .distinct()
+                        .filter { apply(toProcess.filter, it) }
+                        .toSortedSet(compareBy(Dependency::name, Dependency::version))
+                )
+            }
+            .let { getOutputWriter(input.output, parent).write(it) }
     }
 
     private fun apply(filter: FilterConfig?, dep: Dependency): Boolean {
