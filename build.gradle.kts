@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.vladonemo.tools"
-version = "0.0.3"
+version = "0.1.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
